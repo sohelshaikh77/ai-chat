@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Chat Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      width: 100%;
+      max-width: 420px;
+      background: #020617;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #22c55e;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    pre {
+      background: #020617;
+      padding: 10px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h3>AI Chat</h3>
+    <input id="msg" placeholder="Type your message..." />
+    <button onclick="send()">Send</button>
+    <pre id="out"></pre>
+  </div>
+
+  <script>
+    async function send() {
+      const msg = document.getElementById("msg").value;
+      document.getElementById("out").innerText = "Thinking...";
+
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
+
+      const data = await res.json();
+      document.getElementById("out").innerText = data.reply;
+    }
+  </script>
+
+</body>
+</html>
